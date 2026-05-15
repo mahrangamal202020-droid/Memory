@@ -573,7 +573,7 @@
     </div>
 
     <button class="btn-submit" onclick="submitOrder()">
-      📤 اتلم الطلب
+      📤 اتمم الطلب
     </button>
 
     <!-- SUCCESS -->
@@ -706,7 +706,7 @@ function submitOrder() {
 
   const movieText = movies.map((m,i) => `${i+1}. ${m}`).join('\n');
   const msg = encodeURIComponent(
-    `مرحبا يا مهران 👋\n\nعايز أطلب فلاشة من ميموري:\n\n` +
+    ` 👋\n\nعايز أطلب فلاشة من ميموري:\n\n` +
     `📦 الحجم: ${selectedSize}\n` +
     `👤 الاسم: ${name}\n` +
     `📞 التليفون: ${phone}\n` +
@@ -761,7 +761,7 @@ function renderOrders() {
   grid.innerHTML = orders.map((o, i) => {
     const movieText = o.movies.map((m,j) => `${j+1}. ${m}`).join('\n');
     const msg = encodeURIComponent(
-      `مرحبا ${o.name}! أنا مهران من ميموري 👋\nشفت طلبك الخاص بـ ${o.size} وجاهزين نجهزه ليك 🎬`
+      `مرحبا ${o.name}! أنا من ميموري 👋\nشفت طلبك الخاص بـ ${o.size} وجاهزين نجهزه ليك 🎬`
     );
     return `
     <div class="order-card">
