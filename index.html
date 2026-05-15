@@ -30,7 +30,6 @@
     min-height: 100vh;
   }
 
-  /* ======= NAV ======= */
   nav {
     display: flex;
     align-items: center;
@@ -60,7 +59,6 @@
   }
   nav a:hover { color: var(--gold); border-color: var(--border); }
 
-  /* ======= HERO ======= */
   .hero {
     text-align: center;
     padding: 5rem 2rem 3rem;
@@ -85,10 +83,7 @@
     color: var(--gold-light);
   }
 
-  /* ======= MAIN LAYOUT ======= */
   main { max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem; }
-
-  /* ======= SECTION TITLE ======= */
   .section-title {
     font-size: 1rem;
     font-weight: 600;
@@ -106,7 +101,6 @@
     border-radius: 2px;
   }
 
-  /* ======= STEP CARD ======= */
   .step-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -115,7 +109,6 @@
     margin-bottom: 1.5rem;
   }
 
-  /* ======= SIZE GRID ======= */
   .size-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -142,10 +135,7 @@
   .size-option .lbl { font-size: 0.78rem; color: var(--muted); margin-top:2px; }
   .size-option .movies { font-size: 0.72rem; color: var(--gold-dark); margin-top:4px; }
 
-  /* ======= MOVIE INPUT ======= */
-  .movie-input-wrap {
-    display: flex; gap: 0.5rem; margin-bottom: 0.75rem;
-  }
+  .movie-input-wrap { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
   .movie-input-wrap input {
     flex: 1;
     background: var(--bg3);
@@ -197,7 +187,6 @@
   .remove-btn:hover { opacity: 1; }
   .movie-count { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
 
-  /* ======= CONTACT ======= */
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem; }
   @media (max-width:500px) { .contact-grid { grid-template-columns: 1fr; } }
   .contact-grid input {
@@ -216,7 +205,6 @@
   .contact-grid input:focus { border-color: var(--gold); }
   .contact-grid input::placeholder { color: var(--muted); }
 
-  /* ======= NOTES ======= */
   .notes-area {
     background: var(--bg3);
     border: 1px solid var(--border);
@@ -236,7 +224,6 @@
   .notes-area:focus { border-color: var(--gold); }
   .notes-area::placeholder { color: var(--muted); }
 
-  /* ======= SUBMIT ======= */
   .btn-submit {
     width: 100%;
     padding: 1rem;
@@ -256,9 +243,7 @@
     gap: 0.5rem;
   }
   .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.25); }
-  .btn-submit:active { transform: translateY(0); }
 
-  /* ======= SUCCESS ======= */
   .success-box {
     display: none;
     text-align: center;
@@ -287,7 +272,6 @@
   }
   .wa-btn:hover { background: #1ebe5d; }
 
-  /* ======= SUMMARY PANEL ======= */
   .summary-pill {
     position: fixed;
     bottom: 1.5rem;
@@ -311,19 +295,8 @@
   .summary-pill .pill-item strong { color: var(--gold); }
   .summary-pill .pill-dot { width:4px;height:4px;border-radius:50%;background:var(--border); }
 
-  /* ======= ADMIN PAGE ======= */
-  #admin-page {
-    display: none;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-  }
-  .admin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-  }
+  #admin-page { display: none; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
   .admin-header h2 { font-size: 1.5rem; color: var(--gold); }
   .btn-back {
     background: var(--bg3);
@@ -486,7 +459,6 @@
   .stat-card .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
   .order-notes { font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 0.4rem; }
 
-  /* ======= FOOTER ======= */
   footer {
     text-align: center;
     padding: 2rem;
@@ -522,31 +494,11 @@
     <div class="step-card">
       <div class="section-title">الخطوة ١ — اختار حجم الفلاشة</div>
       <div class="size-grid">
-        <div class="size-option" onclick="selectSize(this,'8GB')">
-          <span class="gb">8</span>
-          <span class="lbl">جيجا بايت</span>
-          <span class="movies">~8 أفلام</span>
-        </div>
-        <div class="size-option" onclick="selectSize(this,'16GB')">
-          <span class="gb">16</span>
-          <span class="lbl">جيجا بايت</span>
-          <span class="movies">~16 أفلام</span>
-        </div>
-        <div class="size-option" onclick="selectSize(this,'32GB')">
-          <span class="gb">32</span>
-          <span class="lbl">جيجا بايت</span>
-          <span class="movies">~30 أفلام</span>
-        </div>
-        <div class="size-option" onclick="selectSize(this,'64GB')">
-          <span class="gb">64</span>
-          <span class="lbl">جيجا بايت</span>
-          <span class="movies">~60 أفلام</span>
-        </div>
-        <div class="size-option" onclick="selectSize(this,'128GB')">
-          <span class="gb">128</span>
-          <span class="lbl">جيجا بايت</span>
-          <span class="movies">~120 أفلام</span>
-        </div>
+        <div class="size-option" onclick="selectSize(this,'8GB')"><span class="gb">8</span><span class="lbl">جيجا بايت</span><span class="movies">~8 أفلام</span></div>
+        <div class="size-option" onclick="selectSize(this,'16GB')"><span class="gb">16</span><span class="lbl">جيجا بايت</span><span class="movies">~16 أفلام</span></div>
+        <div class="size-option" onclick="selectSize(this,'32GB')"><span class="gb">32</span><span class="lbl">جيجا بايت</span><span class="movies">~30 أفلام</span></div>
+        <div class="size-option" onclick="selectSize(this,'64GB')"><span class="gb">64</span><span class="lbl">جيجا بايت</span><span class="movies">~60 أفلام</span></div>
+        <div class="size-option" onclick="selectSize(this,'128GB')"><span class="gb">128</span><span class="lbl">جيجا بايت</span><span class="movies">~120 أفلام</span></div>
       </div>
     </div>
 
@@ -575,7 +527,6 @@
       📤 اتلم الطلب
     </button>
 
-    <!-- SUCCESS -->
     <div class="success-box" id="success-box">
       <div class="check">✅</div>
       <h3>تم استلام طلبك!</h3>
@@ -586,7 +537,6 @@
     </div>
   </main>
 
-  <!-- FLOATING PILL -->
   <div class="summary-pill" id="summary-pill" style="opacity:0;pointer-events:none;">
     <span class="pill-item">الفلاشة: <strong id="pill-size">—</strong></span>
     <span class="pill-dot"></span>
@@ -596,7 +546,6 @@
 
 <!-- ADMIN PAGE -->
 <div id="admin-page">
-  <!-- LOGIN -->
   <div id="admin-login">
     <div class="login-card">
       <h3>🔐 دخول الإدارة</h3>
@@ -608,7 +557,6 @@
     </div>
   </div>
 
-  <!-- DASHBOARD -->
   <div id="admin-dashboard" style="display:none;">
     <div class="admin-header">
       <h2>📋 لوحة الطلبات</h2>
@@ -633,9 +581,11 @@
 <script>
 const ADMIN_PASSWORD = 'memoory2025';
 const WA_NUMBER = '201109181065';
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxPOqzdQTOoeeMQCkB9nOrLve-bG-rVac0b-LYZRZ0nErSJe3LJFpaT_Mc3gzVhDhtiA/exec";
+
 let selectedSize = '';
 let movies = [];
-let orders = JSON.parse(localStorage.getItem('memory_orders') || '[]');
+let orders = [];
 
 function selectSize(el, size) {
   document.querySelectorAll('.size-option').forEach(e => e.classList.remove('selected'));
@@ -681,7 +631,6 @@ function updatePill() {
   }
 }
 
-// ====================== التعديل الجديد ======================
 async function submitOrder() {
   const name = document.getElementById('cust-name').value.trim();
   const phone = document.getElementById('cust-phone').value.trim();
@@ -702,24 +651,20 @@ async function submitOrder() {
   };
 
   // إرسال لجوجل شيت
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzbTaeXTmCPSYKmCyJGPxT8QWwBRX6Z_rD8uD7cLUsyMbxrO9ZOgaRi3iOtQdRAku9E/exec";
-
   try {
-    await fetch(scriptURL, {
+    await fetch(SCRIPT_URL, {
       method: 'POST',
       body: JSON.stringify(order),
       headers: { 'Content-Type': 'application/json' }
     });
-    console.log("✅ تم إرسال الطلب إلى جوجل شيت");
   } catch (err) {
-    console.error("خطأ في الإرسال:", err);
+    console.error("خطأ في الإرسال", err);
   }
 
-  // حفظ محلي (للوحة الإدارة)
+  // حفظ محلي
   orders.unshift(order);
   localStorage.setItem('memory_orders', JSON.stringify(orders));
 
-  // رسالة الواتساب
   const movieText = movies.map((m,i) => `${i+1}. ${m}`).join('\n');
   const msg = encodeURIComponent(
     `مرحبا يا مهران 👋\n\nعايز أطلب فلاشة من ميموري:\n\n` +
@@ -733,34 +678,27 @@ async function submitOrder() {
 
   document.getElementById('success-box').style.display = 'block';
   document.getElementById('success-box').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
   document.querySelector('.btn-submit').style.display = 'none';
 }
-// ===========================================================
 
 function showAdmin() {
   document.getElementById('customer-page').style.display = 'none';
   document.getElementById('admin-page').style.display = 'block';
   document.getElementById('nav-admin-link').style.display = 'none';
+  loadOrders();
 }
 
-function showCustomer() {
-  document.getElementById('customer-page').style.display = 'block';
-  document.getElementById('admin-page').style.display = 'none';
-  document.getElementById('nav-admin-link').style.display = '';
-  document.getElementById('admin-dashboard').style.display = 'none';
-  document.getElementById('admin-login').style.display = 'block';
-}
-
-function tryLogin() {
-  const pass = document.getElementById('admin-pass').value;
-  if (pass === ADMIN_PASSWORD) {
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    renderOrders();
-  } else {
-    document.getElementById('login-err').style.display = 'block';
+async function loadOrders() {
+  try {
+    const res = await fetch(SCRIPT_URL);
+    if (res.ok) {
+      orders = await res.json();
+    }
+  } catch (e) {
+    console.log("جاري التحميل من التخزين المحلي");
+    orders = JSON.parse(localStorage.getItem('memory_orders') || '[]');
   }
+  renderOrders();
 }
 
 function renderOrders() {
@@ -776,10 +714,7 @@ function renderOrders() {
   }
 
   grid.innerHTML = orders.map((o, i) => {
-    const movieText = o.movies.map((m,j) => `${j+1}. ${m}`).join('\n');
-    const msg = encodeURIComponent(
-      `مرحبا ${o.name}! أنا مهران من ميموري 👋\nشفت طلبك الخاص بـ ${o.size} وجاهزين نجهزه ليك 🎬`
-    );
+    const msg = encodeURIComponent(`مرحبا ${o.name}! أنا مهران من ميموري 👋\nشفت طلبك الخاص بـ ${o.size} وجاهزين نجهزه ليك 🎬`);
     return `
     <div class="order-card">
       <div class="order-top">
@@ -828,6 +763,25 @@ function clearAllOrders() {
   orders = [];
   localStorage.setItem('memory_orders', JSON.stringify(orders));
   renderOrders();
+}
+
+function showCustomer() {
+  document.getElementById('customer-page').style.display = 'block';
+  document.getElementById('admin-page').style.display = 'none';
+  document.getElementById('nav-admin-link').style.display = '';
+  document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'block';
+}
+
+function tryLogin() {
+  const pass = document.getElementById('admin-pass').value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    loadOrders();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
 }
 </script>
 </body>
