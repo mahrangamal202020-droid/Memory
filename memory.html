@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ميموري — فلاشات الأفلام</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #9a7a30;
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --card: #14141e;
+    --border: rgba(201,168,76,0.2);
+    --text: #f0ead6;
+    --muted: #8a8070;
+    --green: #2ecc71;
+    --red: #e74c3c;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ======= NAV ======= */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,15,0.95);
+    position: sticky; top:0; z-index:100;
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(201,168,76,0.4);
+  }
+  .logo span { color: var(--text); font-weight: 400; font-size: 0.8rem; display:block; letter-spacing:1px; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--gold); border-color: var(--border); }
+
+  /* ======= HERO ======= */
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    background: radial-gradient(ellipse at top, rgba(201,168,76,0.08) 0%, transparent 60%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero p { color: var(--muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem; }
+  .hero-badges { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--gold-light);
+  }
+
+  /* ======= MAIN LAYOUT ======= */
+  main { max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+  /* ======= SECTION TITLE ======= */
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title::before {
+    content:'';
+    display:inline-block;
+    width:4px; height:18px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* ======= STEP CARD ======= */
+  .step-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ======= SIZE GRID ======= */
+  .size-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .size-option {
+    cursor: pointer;
+    background: var(--bg3);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .size-option:hover { border-color: var(--gold-dark); background: rgba(201,168,76,0.06); }
+  .size-option.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.12);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+  }
+  .size-option .gb { font-size: 1.5rem; font-weight: 900; color: var(--gold); display:block; }
+  .size-option .lbl { font-size: 0.78rem; color: var(--muted); margin-top:2px; }
+  .size-option .movies { font-size: 0.72rem; color: var(--gold-dark); margin-top:4px; }
+
+  /* ======= MOVIE INPUT ======= */
+  .movie-input-wrap {
+    display: flex; gap: 0.5rem; margin-bottom: 0.75rem;
+  }
+  .movie-input-wrap input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    direction: rtl;
+    transition: border 0.2s;
+  }
+  .movie-input-wrap input:focus { border-color: var(--gold); }
+  .movie-input-wrap input::placeholder { color: var(--muted); }
+  .btn-add {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 0 1.2rem;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .btn-add:hover { background: var(--gold-light); }
+
+  .movie-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .movie-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+  .remove-btn {
+    background: none; border: none; color: var(--red);
+    cursor: pointer; font-size: 1rem; padding: 0 0.3rem;
+    opacity: 0.6; transition: opacity 0.2s;
+  }
+  .remove-btn:hover { opacity: 1; }
+  .movie-count { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+
+  /* ======= CONTACT ======= */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+  @media (max-width:500px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-grid input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    direction: rtl;
+    transition: border 0.2s;
+    width: 100%;
+  }
+  .contact-grid input:focus { border-color: var(--gold); }
+  .contact-grid input::placeholder { color: var(--muted); }
+
+  /* ======= NOTES ======= */
+  .notes-area {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    direction: rtl;
+    width: 100%;
+    resize: vertical;
+    min-height: 80px;
+    margin-top: 0.75rem;
+    transition: border 0.2s;
+  }
+  .notes-area:focus { border-color: var(--gold); }
+  .notes-area::placeholder { color: var(--muted); }
+
+  /* ======= SUBMIT ======= */
+  .btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.25); }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* ======= SUCCESS ======= */
+  .success-box {
+    display: none;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--card);
+    border: 1px solid rgba(46,204,113,0.3);
+    border-radius: 14px;
+    margin-top: 1.5rem;
+    animation: fadeIn 0.4s ease;
+  }
+  .success-box .check { font-size: 3rem; margin-bottom: 1rem; }
+  .success-box h3 { color: var(--green); font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .success-box p { color: var(--muted); margin-bottom: 1.5rem; }
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #25d366;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .wa-btn:hover { background: #1ebe5d; }
+
+  /* ======= SUMMARY PANEL ======= */
+  .summary-pill {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    z-index:200;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  .summary-pill .pill-item { color: var(--muted); }
+  .summary-pill .pill-item strong { color: var(--gold); }
+  .summary-pill .pill-dot { width:4px;height:4px;border-radius:50%;background:var(--border); }
+
+  /* ======= ADMIN PAGE ======= */
+  #admin-page {
+    display: none;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .admin-header h2 { font-size: 1.5rem; color: var(--gold); }
+  .btn-back {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    transition: border 0.2s;
+  }
+  .btn-back:hover { border-color: var(--gold); }
+
+  .login-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2.5rem;
+    max-width: 380px;
+    margin: 4rem auto;
+    text-align: center;
+  }
+  .login-card h3 { margin-bottom: 1.5rem; color: var(--gold); }
+  .login-card input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    text-align: center;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    transition: border 0.2s;
+  }
+  .login-card input:focus { border-color: var(--gold); }
+  .login-card button {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .err-msg { color: var(--red); font-size: 0.85rem; margin-top: 0.5rem; display:none; }
+
+  .orders-grid { display: flex; flex-direction: column; gap: 1rem; }
+  .order-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .order-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .order-id { font-size: 0.75rem; color: var(--muted); }
+  .order-name { font-weight: 700; font-size: 1rem; }
+  .order-size {
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .order-movies-list {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem;
+  }
+  .movie-tag {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+  .order-meta { font-size: 0.8rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap:wrap; }
+  .order-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid;
+    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+    background: none;
+  }
+  .order-status.pending { color: #f39c12; border-color: rgba(243,156,18,0.4); }
+  .order-status.done { color: var(--green); border-color: rgba(46,204,113,0.4); }
+  .order-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+  .btn-delete {
+    background: none;
+    border: 1px solid rgba(231,76,60,0.3);
+    color: var(--red);
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-delete:hover { background: rgba(231,76,60,0.1); }
+  .btn-wa-contact {
+    background: rgba(37,211,102,0.1);
+    border: 1px solid rgba(37,211,102,0.3);
+    color: #25d366;
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .btn-wa-contact:hover { background: rgba(37,211,102,0.18); }
+  .empty-orders {
+    text-align: center;
+    color: var(--muted);
+    padding: 3rem;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+  }
+  .admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-card .num { font-size: 1.8rem; font-weight: 900; color: var(--gold); }
+  .stat-card .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .order-notes { font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 0.4rem; }
+
+  /* ======= FOOTER ======= */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 4rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">ميموري<span>فلاشات الأفلام بالطلب</span></div>
+  <a href="#" id="nav-admin-link" onclick="showAdmin()">لوحة الإدارة</a>
+</nav>
+
+<!-- CUSTOMER PAGE -->
+<div id="customer-page">
+  <div class="hero">
+    <h1>🎬 اختار أفلامك<br><em>احنا بنجيبهالك على فلاشة</em></h1>
+    <p>اختار حجم الفلاشة، كتب الأفلام اللي محتاجها، وهنتواصل معاك</p>
+    <div class="hero-badges">
+      <span class="badge">📦 توصيل سريع</span>
+      <span class="badge">🎞️ أفلام بالطلب</span>
+      <span class="badge">💾 فلاشات أصلية</span>
+    </div>
+  </div>
+
+  <main>
+    <!-- STEP 1: SIZE -->
+    <div class="step-card">
+      <div class="section-title">الخطوة ١ — اختار حجم الفلاشة</div>
+      <div class="size-grid">
+        <div class="size-option" onclick="selectSize(this,'8GB')">
+          <span class="gb">8</span>
+          <span class="lbl">جيجا بايت</span>
+          <span class="movies">~8 أفلام</span>
+        </div>
+        <div class="size-option" onclick="selectSize(this,'16GB')">
+          <span class="gb">16</span>
+          <span class="lbl">جيجا بايت</span>
+          <span class="movies">~16 أفلام</span>
+        </div>
+        <div class="size-option" onclick="selectSize(this,'32GB')">
+          <span class="gb">32</span>
+          <span class="lbl">جيجا بايت</span>
+          <span class="movies">~30 أفلام</span>
+        </div>
+        <div class="size-option" onclick="selectSize(this,'64GB')">
+          <span class="gb">64</span>
+          <span class="lbl">جيجا بايت</span>
+          <span class="movies">~60 أفلام</span>
+        </div>
+        <div class="size-option" onclick="selectSize(this,'128GB')">
+          <span class="gb">128</span>
+          <span class="lbl">جيجا بايت</span>
+          <span class="movies">~120 أفلام</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: MOVIES -->
+    <div class="step-card">
+      <div class="section-title">الخطوة ٢ — اكتب الأفلام اللي عايزها</div>
+      <div class="movie-input-wrap">
+        <input type="text" id="movie-input" placeholder="مثال: The Dark Knight 2008" onkeydown="if(event.key==='Enter')addMovie()">
+        <button class="btn-add" onclick="addMovie()">+ إضافة</button>
+      </div>
+      <ul class="movie-list" id="movie-list"></ul>
+      <div class="movie-count" id="movie-count"></div>
+    </div>
+
+    <!-- STEP 3: CONTACT -->
+    <div class="step-card">
+      <div class="section-title">الخطوة ٣ — بياناتك</div>
+      <div class="contact-grid">
+        <input type="text" id="cust-name" placeholder="اسمك">
+        <input type="tel" id="cust-phone" placeholder="رقم تليفونك">
+      </div>
+      <textarea class="notes-area" id="cust-notes" placeholder="أي ملاحظات إضافية؟ (اختياري)"></textarea>
+    </div>
+
+    <button class="btn-submit" onclick="submitOrder()">
+      📤 اتلم الطلب
+    </button>
+
+    <!-- SUCCESS -->
+    <div class="success-box" id="success-box">
+      <div class="check">✅</div>
+      <h3>تم استلام طلبك!</h3>
+      <p>وصلنا طلبك بالظبط. تواصل معانا على واتساب عشان نكمل التفاصيل 👇</p>
+      <a class="wa-btn" id="wa-link" href="#" target="_blank">
+        💬 تواصل على واتساب
+      </a>
+    </div>
+  </main>
+
+  <!-- FLOATING PILL -->
+  <div class="summary-pill" id="summary-pill" style="opacity:0;pointer-events:none;">
+    <span class="pill-item">الفلاشة: <strong id="pill-size">—</strong></span>
+    <span class="pill-dot"></span>
+    <span class="pill-item">الأفلام: <strong id="pill-movies">0</strong></span>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="admin-page">
+  <!-- LOGIN -->
+  <div id="admin-login">
+    <div class="login-card">
+      <h3>🔐 دخول الإدارة</h3>
+      <input type="password" id="admin-pass" placeholder="كلمة السر" onkeydown="if(event.key==='Enter')tryLogin()">
+      <div class="err-msg" id="login-err">كلمة السر غلط ❌</div>
+      <button onclick="tryLogin()" style="margin-top:0.75rem;">دخول</button>
+      <br><br>
+      <button class="btn-back" onclick="showCustomer()">← رجوع للموقع</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="admin-dashboard" style="display:none;">
+    <div class="admin-header">
+      <h2>📋 لوحة الطلبات</h2>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="btn-back" onclick="clearAllOrders()" style="color:var(--red);border-color:rgba(231,76,60,0.3);">مسح الكل</button>
+        <button class="btn-back" onclick="showCustomer()">← رجوع</button>
+      </div>
+    </div>
+    <div class="admin-stats">
+      <div class="stat-card"><div class="num" id="stat-total">0</div><div class="lbl">إجمالي الطلبات</div></div>
+      <div class="stat-card"><div class="num" id="stat-pending">0</div><div class="lbl">طلبات جديدة</div></div>
+      <div class="stat-card"><div class="num" id="stat-done">0</div><div class="lbl">تم التنفيذ</div></div>
+    </div>
+    <div class="orders-grid" id="orders-grid"></div>
+  </div>
+</div>
+
+<footer>
+  © ميموري — فلاشات الأفلام بالطلب &nbsp;|&nbsp; جميع الحقوق محفوظة
+</footer>
+
+<script>
+const ADMIN_PASSWORD = 'memoory2025';
+const WA_NUMBER = '201109181065';
+let selectedSize = '';
+let movies = [];
+let orders = JSON.parse(localStorage.getItem('memory_orders') || '[]');
+
+function selectSize(el, size) {
+  document.querySelectorAll('.size-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSize = size;
+  updatePill();
+}
+
+function addMovie() {
+  const input = document.getElementById('movie-input');
+  const val = input.value.trim();
+  if (!val) return;
+  movies.push(val);
+  input.value = '';
+  renderMovies();
+  updatePill();
+}
+
+function removeMovie(i) {
+  movies.splice(i, 1);
+  renderMovies();
+  updatePill();
+}
+
+function renderMovies() {
+  const list = document.getElementById('movie-list');
+  list.innerHTML = movies.map((m, i) => `
+    <li>
+      <span>🎬 ${m}</span>
+      <button class="remove-btn" onclick="removeMovie(${i})">✕</button>
+    </li>`).join('');
+  const count = document.getElementById('movie-count');
+  count.textContent = movies.length > 0 ? `${movies.length} فيلم مضاف` : '';
+}
+
+function updatePill() {
+  const pill = document.getElementById('summary-pill');
+  document.getElementById('pill-size').textContent = selectedSize || '—';
+  document.getElementById('pill-movies').textContent = movies.length;
+  if (selectedSize || movies.length > 0) {
+    pill.style.opacity = '1';
+    pill.style.pointerEvents = 'auto';
+  }
+}
+
+function submitOrder() {
+  const name = document.getElementById('cust-name').value.trim();
+  const phone = document.getElementById('cust-phone').value.trim();
+  const notes = document.getElementById('cust-notes').value.trim();
+
+  if (!selectedSize) { alert('من فضلك اختار حجم الفلاشة أولاً'); return; }
+  if (movies.length === 0) { alert('من فضلك أضف فيلم واحد على الأقل'); return; }
+  if (!name) { alert('من فضلك اكتب اسمك'); return; }
+  if (!phone) { alert('من فضلك اكتب رقم تليفونك'); return; }
+
+  const order = {
+    id: 'ORD-' + Date.now(),
+    date: new Date().toLocaleString('ar-EG'),
+    name, phone, notes,
+    size: selectedSize,
+    movies: [...movies],
+    status: 'pending'
+  };
+
+  orders.unshift(order);
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+
+  const movieText = movies.map((m,i) => `${i+1}. ${m}`).join('\n');
+  const msg = encodeURIComponent(
+    `مرحبا يا مهران 👋\n\nعايز أطلب فلاشة من ميموري:\n\n` +
+    `📦 الحجم: ${selectedSize}\n` +
+    `👤 الاسم: ${name}\n` +
+    `📞 التليفون: ${phone}\n` +
+    `🎬 الأفلام:\n${movieText}` +
+    (notes ? `\n\n📝 ملاحظات: ${notes}` : '')
+  );
+  document.getElementById('wa-link').href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+
+  document.getElementById('success-box').style.display = 'block';
+  document.getElementById('success-box').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  document.querySelector('.btn-submit').style.display = 'none';
+}
+
+function showAdmin() {
+  document.getElementById('customer-page').style.display = 'none';
+  document.getElementById('admin-page').style.display = 'block';
+  document.getElementById('nav-admin-link').style.display = 'none';
+}
+
+function showCustomer() {
+  document.getElementById('customer-page').style.display = 'block';
+  document.getElementById('admin-page').style.display = 'none';
+  document.getElementById('nav-admin-link').style.display = '';
+  document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'block';
+}
+
+function tryLogin() {
+  const pass = document.getElementById('admin-pass').value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    renderOrders();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+function renderOrders() {
+  const grid = document.getElementById('orders-grid');
+  const pending = orders.filter(o => o.status === 'pending').length;
+  document.getElementById('stat-total').textContent = orders.length;
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-done').textContent = orders.length - pending;
+
+  if (orders.length === 0) {
+    grid.innerHTML = '<div class="empty-orders">لا يوجد طلبات بعد 📭</div>';
+    return;
+  }
+
+  grid.innerHTML = orders.map((o, i) => {
+    const movieText = o.movies.map((m,j) => `${j+1}. ${m}`).join('\n');
+    const msg = encodeURIComponent(
+      `مرحبا ${o.name}! أنا مهران من ميموري 👋\nشفت طلبك الخاص بـ ${o.size} وجاهزين نجهزه ليك 🎬`
+    );
+    return `
+    <div class="order-card">
+      <div class="order-top">
+        <div>
+          <div class="order-id">${o.id} &nbsp;·&nbsp; ${o.date}</div>
+          <div class="order-name">👤 ${o.name}</div>
+        </div>
+        <span class="order-size">💾 ${o.size}</span>
+      </div>
+      <div class="order-movies-list">
+        ${o.movies.map(m => `<span class="movie-tag">🎬 ${m}</span>`).join('')}
+      </div>
+      ${o.notes ? `<div class="order-notes">📝 ${o.notes}</div>` : ''}
+      <div class="order-meta">
+        <span>📞 ${o.phone}</span>
+        <span>🎞️ ${o.movies.length} فيلم</span>
+      </div>
+      <div class="order-actions" style="margin-top:0.75rem; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+        <button class="order-status ${o.status === 'done' ? 'done' : 'pending'}" onclick="toggleStatus(${i})">
+          ${o.status === 'done' ? '✅ تم التنفيذ' : '⏳ جديد'}
+        </button>
+        <a class="btn-wa-contact" href="https://wa.me/${o.phone.replace(/\D/g,'')}?text=${msg}" target="_blank">
+          💬 تواصل
+        </a>
+        <button class="btn-delete" onclick="deleteOrder(${i})">🗑️ حذف</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleStatus(i) {
+  orders[i].status = orders[i].status === 'pending' ? 'done' : 'pending';
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+  renderOrders();
+}
+
+function deleteOrder(i) {
+  if (!confirm('هتحذف الطلب ده؟')) return;
+  orders.splice(i, 1);
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+  renderOrders();
+}
+
+function clearAllOrders() {
+  if (!confirm('هتمسح كل الطلبات؟ مش هيرجع!')) return;
+  orders = [];
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+  renderOrders();
+}
+</script>
+</body>
+</html>
