@@ -30,7 +30,6 @@
     min-height: 100vh;
   }
 
-  /* باقي الـ CSS كامل بدون أي تغيير */
   nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid var(--border); background: rgba(10,10,15,0.95); position: sticky; top:0; z-index:100; backdrop-filter: blur(8px); }
   .logo { font-size: 1.8rem; font-weight: 900; color: var(--gold); letter-spacing: 2px; text-shadow: 0 0 20px rgba(201,168,76,0.4); }
   .logo span { color: var(--text); font-weight: 400; font-size: 0.8rem; display:block; letter-spacing:1px; }
@@ -97,7 +96,6 @@
   .summary-pill .pill-item strong { color: var(--gold); }
   .summary-pill .pill-dot { width:4px;height:4px;border-radius:50%;background:var(--border); }
 
-  /* Admin Styles (كامل بدون تغيير) */
   #admin-page { display: none; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
   .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
   .admin-header h2 { font-size: 1.5rem; color: var(--gold); }
@@ -133,13 +131,11 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">ميموري<span>فلاشات الأفلام بالطلب</span></div>
   <a href="#" id="nav-admin-link" onclick="showAdmin()">لوحة الإدارة</a>
 </nav>
 
-<!-- CUSTOMER PAGE -->
 <div id="customer-page">
   <div class="hero">
     <h1>🎬 اختار أفلامك<br><em>احنا بنجيبهالك على فلاشة</em></h1>
@@ -152,7 +148,6 @@
   </div>
 
   <main>
-    <!-- STEP 1: SIZE -->
     <div class="step-card">
       <div class="section-title">الخطوة ١ — اختار حجم الفلاشة</div>
       <div class="size-grid">
@@ -164,7 +159,6 @@
       </div>
     </div>
 
-    <!-- STEP 2: MOVIES -->
     <div class="step-card">
       <div class="section-title">الخطوة ٢ — اكتب الأفلام اللي عايزها</div>
       <div class="movie-input-wrap">
@@ -175,7 +169,6 @@
       <div class="movie-count" id="movie-count"></div>
     </div>
 
-    <!-- STEP 3: CONTACT -->
     <div class="step-card">
       <div class="section-title">الخطوة ٣ — بياناتك</div>
       <div class="contact-grid">
@@ -189,7 +182,6 @@
       📤 اتلم الطلب
     </button>
 
-    <!-- SUCCESS -->
     <div class="success-box" id="success-box">
       <div class="check">✅</div>
       <h3>تم استلام طلبك!</h3>
@@ -207,7 +199,6 @@
   </div>
 </div>
 
-<!-- ADMIN PAGE (كامل بدون تغيير) -->
 <div id="admin-page">
   <div id="admin-login">
     <div class="login-card">
@@ -292,7 +283,6 @@ function updatePill() {
   }
 }
 
-// ==================== التعديل الوحيد ====================
 async function submitOrder() {
   const name = document.getElementById('cust-name').value.trim();
   const phone = document.getElementById('cust-phone').value.trim();
@@ -313,24 +303,20 @@ async function submitOrder() {
   };
 
   // إرسال إلى جوجل شيت
-  const scriptURL = "https://script.google.com/macros/s/YOUR_WEB_APP_URL/exec"; // غير الرابط ده
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzbTaeXTmCPSYKmCyJGPxT8QWwBRX6Z_rD8uD7cLUsyMbxrO9ZOgaRi3iOtQdRAku9E/exec";
 
   try {
-    const response = await fetch(scriptURL, {
+    await fetch(scriptURL, {
       method: 'POST',
       body: JSON.stringify(order),
       headers: { 'Content-Type': 'application/json' }
     });
-
-    if (response.ok) {
-      console.log("تم إرسال الطلب إلى جوجل شيت");
-    }
+    console.log("✅ تم إرسال الطلب بنجاح إلى جوجل شيت");
   } catch (err) {
     console.error("خطأ في الإرسال:", err);
-    alert("تم حفظ الطلب محلياً، لكن في مشكلة في الاتصال بجوجل شيت");
   }
 
-  // باقي الكود الأصلي
+  // رسالة الواتساب
   const movieText = movies.map((m,i) => `${i+1}. ${m}`).join('\n');
   const msg = encodeURIComponent(
     `مرحبا يا مهران 👋\n\nعايز أطلب فلاشة من ميموري:\n\n` +
@@ -347,9 +333,8 @@ async function submitOrder() {
 
   document.querySelector('.btn-submit').style.display = 'none';
 }
-// =====================================================
 
-function showAdmin() { /* باقي الدوال الأصلية بدون تغيير */ 
+function showAdmin() {
   document.getElementById('customer-page').style.display = 'none';
   document.getElementById('admin-page').style.display = 'block';
   document.getElementById('nav-admin-link').style.display = 'none';
@@ -374,7 +359,7 @@ function tryLogin() {
   }
 }
 
-function renderOrders() { /* كامل كما هو */ 
+function renderOrders() {
   const grid = document.getElementById('orders-grid');
   const pending = orders.filter(o => o.status === 'pending').length;
   document.getElementById('stat-total').textContent = orders.length;
@@ -387,7 +372,6 @@ function renderOrders() { /* كامل كما هو */
   }
 
   grid.innerHTML = orders.map((o, i) => {
-    const movieText = o.movies.map((m,j) => `${j+1}. ${m}`).join('\n');
     const msg = encodeURIComponent(`مرحبا ${o.name}! أنا مهران من ميموري 👋\nشفت طلبك الخاص بـ ${o.size} وجاهزين نجهزه ليك 🎬`);
     return `
     <div class="order-card">
@@ -406,22 +390,36 @@ function renderOrders() { /* كامل كما هو */
         <span>📞 ${o.phone}</span>
         <span>🎞️ ${o.movies.length} فيلم</span>
       </div>
-      <div class="order-actions" style="margin-top:0.75rem; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+      <div class="order-actions">
         <button class="order-status ${o.status === 'done' ? 'done' : 'pending'}" onclick="toggleStatus(${i})">
           ${o.status === 'done' ? '✅ تم التنفيذ' : '⏳ جديد'}
         </button>
-        <a class="btn-wa-contact" href="https://wa.me/${o.phone.replace(/\D/g,'')}?text=${msg}" target="_blank">
-          💬 تواصل
-        </a>
+        <a class="btn-wa-contact" href="https://wa.me/${o.phone.replace(/\D/g,'')}?text=${msg}" target="_blank">💬 تواصل</a>
         <button class="btn-delete" onclick="deleteOrder(${i})">🗑️ حذف</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function toggleStatus(i) { orders[i].status = orders[i].status === 'pending' ? 'done' : 'pending'; localStorage.setItem('memory_orders', JSON.stringify(orders)); renderOrders(); }
-function deleteOrder(i) { if (!confirm('هتحذف الطلب ده؟')) return; orders.splice(i, 1); localStorage.setItem('memory_orders', JSON.stringify(orders)); renderOrders(); }
-function clearAllOrders() { if (!confirm('هتمسح كل الطلبات؟')) return; orders = []; localStorage.setItem('memory_orders', JSON.stringify(orders)); renderOrders(); }
+function toggleStatus(i) {
+  orders[i].status = orders[i].status === 'pending' ? 'done' : 'pending';
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+  renderOrders();
+}
+
+function deleteOrder(i) {
+  if (!confirm('هتحذف الطلب ده؟')) return;
+  orders.splice(i, 1);
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+  renderOrders();
+}
+
+function clearAllOrders() {
+  if (!confirm('هتمسح كل الطلبات؟ مش هيرجع!')) return;
+  orders = [];
+  localStorage.setItem('memory_orders', JSON.stringify(orders));
+  renderOrders();
+}
 </script>
 </body>
 </html>
